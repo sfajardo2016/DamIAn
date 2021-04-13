@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, DynamicSkinForm, SkinData,
-  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls;
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, LinkLabel2;
 
 type
   TFrmSettings = class(TForm)
@@ -13,16 +13,16 @@ type
     spSkinData1: TspSkinData;
     spDynamicSkinForm1: TspDynamicSkinForm;
     Label1: TLabel;
-    PageControl1: TPageControl;
-    TabSheet1: TTabSheet;
-    TabSheet2: TTabSheet;
-    TabSheet3: TTabSheet;
     Label2: TLabel;
-    Edit1: TEdit;
+    Edit_SpecialPhase: TEdit;
+    LinkLabel21: TLinkLabel2;
+    Label3: TLabel;
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure FormCreate(Sender: TObject);
   private
-    { Private declarations }
+		{ Private declarations }
+    ESCPressedCounter: SmallInt;
   public
     { Public declarations }
   end;
@@ -34,16 +34,19 @@ implementation
 
 {$R *.dfm}
 
+procedure TFrmSettings.FormCreate(Sender: TObject);
+begin
+ESCPressedCounter:=0;
+end;
+
 procedure TFrmSettings.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-	if (ssAlt in Shift) and ( ssCtrl in Shift ) and ( Key = 88 )  then begin
-			//Ctrl + Alt + X
 
-			Close;
-		end;
-
-
+		if (Key=VK_ESCAPE) then begin
+			inc ( ESCPressedCounter );
+			if (ESCPressedCounter>=2) then Close;
+		end else ESCPressedCounter := 0;
 
 end;
 

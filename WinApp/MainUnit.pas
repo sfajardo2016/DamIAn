@@ -20,8 +20,8 @@ type
     TextFader1: TTextFader;
     Panel_Input: TPanel;
     Label_Input: TLabel;
-    Timer_StartUp: TTimer;
-    VarCoded: TVarCodedxe81;
+		VarCoded: TVarCodedxe81;
+		Timer_StartUp: TTimer;
     Timer_Cursor: TTimer;
     Timer_Close: TTimer;
     procedure FormCreate(Sender: TObject);
@@ -37,13 +37,10 @@ type
 		{ Private declarations }
 
 
-
-
-
 		NonBelieverReplies: TStringList;
 		RepliesToBeliever: TStringList;
 
-
+		NonBelieverIsTakingControl: Boolean;
 
 		SpecialPhase:String;
 		SpecialCharacter: Char;
@@ -51,16 +48,20 @@ type
 
 		TheAnswer: String;
 		FastQuit:Boolean;
+
 		CanAskAQuestion: Boolean;
 
 		ThisInput: TDamianInput;
 
 
-    procedure NewQuestion();
-    procedure ShowReply(ThisReply: String; ThisType: Smallint);
-    procedure NonBelieverAsked;
-    procedure IDontUnderstand;
-    procedure ProcessNonBelieverEntry(ThisChar: Char);
+		procedure NewQuestion();
+		/// <remarks>
+		///   ThisType parameter is to define the type
+		///  of reply, maybe change color or add special effects
+		/// </remarks>
+		procedure ShowReply(ThisReply: String; ThisType: Smallint);
+		procedure NonBelieverAsked;
+    procedure ProcessKeyAsNormal(ThisChar: Char);
     procedure AddNextCharacterFromPhase;
     procedure ShowSettings;
     function BeginSession: Boolean;
@@ -85,7 +86,7 @@ implementation
 
 uses SettingsUnit;
 
-{$REGION 'Encrypt/Decrypt'}
+{$REGION 'Encrypt/Decrypt for the special phase stored in the INI'}
   
   
 	const CKEY1 = 1990;
@@ -142,11 +143,13 @@ var
 	FrmSettings: TFrmSettings;
 begin
 
-
 	FrmSettings:= TFrmSettings.Create(FrmMain);
-	FrmSettings.Edit1.Text := SpecialPhase.Replace('Damian ','');
+	FrmSettings.Edit_SpecialPhase.Text := SpecialPhase.Replace('Damian ','');
 	FrmSettings.ShowModal;
-	SpecialPhase := 'Damian ' + FrmSettings.Edit1.Text;
+	SpecialPhase := 'Damian ' + FrmSettings.Edit_SpecialPhase.Text;
+	/// <remarks>
+  ///   Save the special phase encrypted
+  /// </remarks>
 	varcoded.WriteINI('System','ID',EncryptStr(SpecialPhase,1972));
 
 
@@ -158,10 +161,8 @@ procedure TFrmMain.Edit_InputKeyDown(Sender: TObject; var Key: Word;
 
 begin
 /// <remarks>
-///   Special Keys
+///   Special Keys and flags
 /// </remarks>
-///
-///
 ///
 
 	ThisInput.ESCKeyPressed:= False;
@@ -192,13 +193,13 @@ procedure TFrmMain.ProcessESC();
 begin
 
 		/// <remarks>
-	///   If you hit ESC key 3 times, the nonbeliever flag is activated
+	///   If you hit ESC key 2 times, the nonbeliever flag is activated
 	/// </remarks>
 
 			ThisInput.ESCKeyPressed:= True;
 			ThisInput.ESCKeyPressedCounter := ThisInput.ESCKeyPressedCounter + 1;
 			if ( ThisInput.ESCKeyPressedCounter=2) then
-				ThisInput.NonBeliever := true
+				NonBelieverIsTakingControl := true
 			else begin
 				if (ThisInput.ESCKeyPressedCounter>3)  then begin
 					FastQuit := True;
@@ -215,7 +216,7 @@ procedure TFrmMain.ProcessENTER();
 begin
 	//new question for now
 
-	if (ThisInput.NonBeliever) then begin
+	if (ThisInput.NonBeliever) or (NonBelieverIsTakingControl) then begin
 		NonBelieverAsked;
 		Exit;
 	end;
@@ -241,11 +242,6 @@ begin
 		Exit;
 	end;
 
-	IDontUnderstand();
-
-
-
-
 
 end;
 
@@ -262,16 +258,9 @@ begin
 		ThisFakeText := ThisFakeText.Substring(0,ThisFakeText.Length-1 );
 		Label_Input.Caption := ThisFakeText;
 
-		if (ThisInput.TypingTheAnswer)  then begin
+		if (ThisInput.TypingTheAnswer) and not (ThisInput.AnswerReady) then begin
 			TheAnswer := TheAnswer.Substring(0,TheAnswer.Length-1 );
 		end;
-
-		if (ThisInput.TypingTheQuestion) then begin
-
-		end;
-
-
-//		if (ThisFakeText.Length<=0) then QuestionCharWasPressed := false;
 
 	end;
 
@@ -285,8 +274,8 @@ begin
 	ThisInput.FirstSpecialChar:=true;
 	ThisInput.NonBeliever:=false;
 	ThisInput.NonBelieverQuestions := 0;
+	NonBelieverIsTakingControl := False;
 	ThisInput.TypingTheAnswer := true;
-
 	AddNextCharacterFromPhase();
 
 end;
@@ -340,37 +329,48 @@ ThisResult := ThisChar;
 
 	if not ( ThisKeyIsVisible ) then exit(#0);
 
-//	ThisRealText:= Edit_Input.Text;
+	if  (NonBelieverIsTakingControl) then begin
+			ProcessKeyAsNormal(ThisChar);
+			Exit(ThisChar);
+	end;
+
+
 
 	ThisInput.QuestionCharBeenPressed := (ThisChar=SpecialCharacter );
 
+
 	if (ThisFakeText.Length=0) then begin //First char
 {$REGION 'First char'}
-  			if (ThisInput.QuestionCharBeenPressed)  then begin
+				if (ThisInput.QuestionCharBeenPressed)  then begin
 						ProcessFirstSpecialChar();
-  					Exit(#0);
+						Exit(#0);
 				end;
 
 				if (ThisInput.TypingTheQuestion) then begin
-					Label_Input.Caption := ThisFakeText + ThisChar;
+					ProcessKeyAsNormal(ThisChar);
 					Exit(ThisChar);
 				end;
 
-  			ThisInput.NonBeliever:=true;
+				ThisInput.NonBeliever:=true;
+				ProcessKeyAsNormal(ThisChar);
+				Exit(ThisChar);
+
 		end;
 
 {$ENDREGION}
 
+	if ( ThisInput.NonBeliever ) then begin
+			ProcessKeyAsNormal(ThisChar);
+			Exit(ThisChar);
+	end;
+
+
 
 	if ((ThisInput.AnswerReady) and (ThisInput.TypingTheAnswer)) or ( ThisInput.TypingTheQuestion ) then begin
-			Label_Input.Caption := ThisFakeText + ThisChar;
+			ProcessKeyAsNormal(ThisChar);
 			Exit(ThisChar);
 	end;
 
-	if ( ThisInput.NonBeliever ) then begin
-			ProcessNonBelieverEntry(ThisChar);
-			Exit(ThisChar);
-	end;
 
 
 
@@ -380,7 +380,7 @@ ThisResult := ThisChar;
 
 
 	if (ThisInput.QuestionCharBeenPressed) and (ThisInput.TypingTheAnswer) then begin
-			//Second time
+			//Second time the speciah char is pressed
 			ThisInput.AnswerReady := True;
 			AddNextCharacterFromPhase();
 			Exit(#0);
@@ -401,23 +401,15 @@ ThisResult := ThisChar;
 	end;
 
 
-
-
-
-
-
-
 result := ThisResult;
 end;
 
 
 procedure TFrmMain.Edit_InputKeyPress(Sender: TObject; var Key: Char);
 
-
 begin
 
 	Key := ProcessNewChar(Key);
-
 
 end;
 
@@ -432,7 +424,7 @@ Label_Input.Caption := ThisFakeText + SpecialPhase.Substring(ThisFakeText.Length
 end;
 
 
-procedure TFrmMain.ProcessNonBelieverEntry(ThisChar:Char);
+procedure TFrmMain.ProcessKeyAsNormal(ThisChar:Char);
 begin
 Label_Input.Caption := Label_Input.Caption + ThisChar;
 end;
@@ -466,13 +458,6 @@ end;
 
 end;
 
-procedure TFrmMain.IDontUnderstand();
-
-begin
-	if ( ThisInput.NonBeliever )  then NonBelieverAsked() else 		ShowReply('I dont understand',3);
-	NewQuestion();
-end;
-
 
 function TFrmMain.BeginSession(): Boolean;
 var
@@ -496,22 +481,28 @@ varcoded.SetCreator('Zaphod (See "About" for contact)');
 
 if NOT ( varcoded.IsValidInstallation() ) then
 begin
-		ShowMessage('This instalation is not valid, try reinstalling this app' );
+		ShowMessage('This installation is not valid, try reinstalling this app' );
 		exit ( false );
 end;
 
+/// <remarks>
+///   log disable for production
+/// </remarks>
 
+(*
 if NOT ( varcoded.SetupLog() ) then
 begin
 		ShowMessage('Can not create LOG file, try reinstalling this app' );
 		exit ( false );
 end;
 
-
+			 *)
 ThisInput := TDamianInput.Create;
 
 ThisInput.NonBeliever:= False;
 FastQuit := False;
+NonBelieverIsTakingControl := false;
+
 TextFader1.Lines.Clear;
 
 
@@ -537,30 +528,12 @@ RepliesToBeliever.Add('lingua est binarii '); //binary is the language
 
 
 
-
-
-
-
-
-
-//arce scripturam
-
-
-
-
-
-
-ShowReply('ne iterum',0); //not again
-
-
 SpecialPhase := DecryptStr (Varcoded.ReadINI('System','ID',''),1972);
 
 if SpecialPhase.Length<6 then SpecialPhase := 'Damian paulo diaboli audite me';
 
-
-//SpecialPhase := 'Damian ' +  Edit_SpecialPhase.Text;
 SpecialCharacter := ',';
-
+ShowReply('ne iterum',0); //not again
 NewQuestion();
 
 
