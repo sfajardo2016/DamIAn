@@ -4,8 +4,8 @@ object FrmMain: TFrmMain
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Damian'
-  ClientHeight = 397
-  ClientWidth = 297
+  ClientHeight = 456
+  ClientWidth = 333
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,6 +14,7 @@ object FrmMain: TFrmMain
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -35,9 +36,9 @@ object FrmMain: TFrmMain
     OnComplete = TextFader1Complete
   end
   object Edit_Input: TEdit
-    Left = 216
-    Top = 271
-    Width = 33
+    Left = 224
+    Top = 270
+    Width = 20
     Height = 10
     AutoSize = False
     BevelInner = bvNone
@@ -45,7 +46,7 @@ object FrmMain: TFrmMain
     BorderStyle = bsNone
     Color = clRed
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWhite
+    Font.Color = clRed
     Font.Height = -1
     Font.Name = 'Tahoma'
     Font.Style = []
@@ -68,135 +69,13 @@ object FrmMain: TFrmMain
       Height = 20
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
-      Font.Height = -11
+      Font.Color = clBlack
+      Font.Height = -16
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      ExplicitWidth = 3
-      ExplicitHeight = 13
-    end
-  end
-  object Panel_Config: TbsSkinExPanel
-    Left = 8
-    Top = 56
-    Width = 177
-    Height = 74
-    HintImageIndex = 0
-    TabOrder = 2
-    Visible = False
-    SkinDataName = 'expanel'
-    DefaultFont.Charset = DEFAULT_CHARSET
-    DefaultFont.Color = clWindowText
-    DefaultFont.Height = 13
-    DefaultFont.Name = 'Tahoma'
-    DefaultFont.Style = []
-    DefaultWidth = 0
-    DefaultHeight = 0
-    UseSkinFont = True
-    UseSkinSize = True
-    CaptionImageIndex = -1
-    NumGlyphs = 1
-    Spacing = 2
-    RealWidth = 0
-    RealHeight = 0
-    ShowRollButton = False
-    ShowCloseButton = True
-    DefaultCaptionHeight = 21
-    RollState = False
-    RollKind = rkRollVertical
-    Moveable = True
-    Sizeable = False
-    Caption = 'Damian preferences'
-    object Panel_Preferences_Top: TbsSkinPanel
-      Left = 1
-      Top = 21
-      Width = 175
-      Height = 20
-      HintImageIndex = 0
-      TabOrder = 0
-      SkinDataName = 'panel'
-      DefaultFont.Charset = DEFAULT_CHARSET
-      DefaultFont.Color = clWindowText
-      DefaultFont.Height = 13
-      DefaultFont.Name = 'Tahoma'
-      DefaultFont.Style = []
-      DefaultWidth = 0
-      DefaultHeight = 0
-      UseSkinFont = True
-      EmptyDrawing = False
-      RibbonStyle = False
-      ImagePosition = bsipDefault
-      TransparentMode = False
-      CaptionImageIndex = -1
-      RealHeight = -1
-      AutoEnabledControls = True
-      CheckedMode = False
-      Checked = False
-      DefaultAlignment = taLeftJustify
-      DefaultCaptionHeight = 20
-      BorderStyle = bvFrame
-      CaptionMode = False
-      RollUpMode = False
-      RollUpState = False
-      NumGlyphs = 1
-      Spacing = 2
-      Caption = 'Panel_Preferences_Top'
-      Align = alTop
-      ExplicitWidth = 279
-      object bsSkinStdLabel1: TbsSkinStdLabel
-        Left = 1
-        Top = 1
-        Width = 209
-        Height = 18
-        EllipsType = bsetNone
-        UseSkinFont = True
-        UseSkinColor = True
-        DefaultFont.Charset = DEFAULT_CHARSET
-        DefaultFont.Color = clWindowText
-        DefaultFont.Height = -11
-        DefaultFont.Name = 'Tahoma'
-        DefaultFont.Style = []
-        SkinDataName = 'stdlabel'
-        Align = alLeft
-        Caption = 'Special phase starts with Damian follow by  '
-        ExplicitHeight = 13
-      end
-      object Edit_SpecialPhase: TbsSkinEdit
-        Left = 210
-        Top = 1
-        Width = 4
-        Height = 18
-        Text = 'paulo diabolic'
-        DefaultColor = clWindow
-        DefaultFont.Charset = DEFAULT_CHARSET
-        DefaultFont.Color = clBlack
-        DefaultFont.Height = 13
-        DefaultFont.Name = 'Tahoma'
-        DefaultFont.Style = []
-        UseSkinFont = True
-        DefaultWidth = 0
-        DefaultHeight = 0
-        ButtonMode = False
-        SkinDataName = 'edit'
-        Align = alClient
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = 13
-        Font.Name = 'Tahoma'
-        Font.Style = []
-        CharCase = ecLowerCase
-        ParentFont = False
-        TabOrder = 0
-        ButtonImageIndex = -1
-        LeftImageIndex = -1
-        LeftImageHotIndex = -1
-        LeftImageDownIndex = -1
-        RightImageIndex = -1
-        RightImageHotIndex = -1
-        RightImageDownIndex = -1
-        ExplicitWidth = 68
-      end
+      ExplicitWidth = 5
+      ExplicitHeight = 19
     end
   end
   object spCompressedSkinList1: TspCompressedSkinList
@@ -3571,10 +3450,30 @@ object FrmMain: TFrmMain
     BorderIcons = [biSystemMenu, biMinimize, biMaximize, biRollUp]
     Left = 16
   end
-  object Timer1: TTimer
+  object Timer_StartUp: TTimer
     Enabled = False
     Interval = 50
-    OnTimer = Timer1Timer
+    OnTimer = Timer_StartUpTimer
     Left = 128
+  end
+  object VarCoded: TVarCodedxe81
+    IsValidUser = False
+    LoginName = 'SFAJARDO'
+    UseOriginalCreator = True
+    FriendlyAppName = 'varcoded'
+    Left = 136
+    Top = 184
+  end
+  object Timer_Cursor: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = Timer_CursorTimer
+    Left = 168
+  end
+  object Timer_Close: TTimer
+    Enabled = False
+    Interval = 2000
+    OnTimer = Timer_CloseTimer
+    Left = 208
   end
 end
