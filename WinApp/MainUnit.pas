@@ -3,11 +3,12 @@ unit MainUnit;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, SkinData, DynamicSkinForm,
+	Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+	Vcl.Controls, Vcl.Forms, Vcl.Dialogs, SkinData, DynamicSkinForm,
 	Vcl.StdCtrls, TextFade, Vcl.Mask, SkinBoxCtrls, SkinCtrls, bsSkinBoxCtrls,
 
 	DamianInputUnit,
+	System.StrUtils,
 
 	Vcl.ExtCtrls, bsSkinCtrls, varcodedxe81, JvExControls, JvInspector;
 
@@ -33,7 +34,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Timer_CursorTimer(Sender: TObject);
     procedure Timer_CloseTimer(Sender: TObject);
-  private
+	private
 		{ Private declarations }
 
 
@@ -52,6 +53,10 @@ type
 		CanAskAQuestion: Boolean;
 
 		ThisInput: TDamianInput;
+		ThisFakeTextVisual: String;
+
+
+
 
 
 		procedure NewQuestion();
@@ -71,6 +76,7 @@ type
     procedure ProcessBackSpace;
     function  ProcessNewChar(ThisChar: Char): Char;
 		procedure ProcessFirstSpecialChar;
+    procedure DisplayFakeText(ThisString: String);
 
 
   public
@@ -233,11 +239,12 @@ begin
 		ThisInput.TypingTheQuestion := true;
 		Label_Input.Caption := '';
 		Edit_Input.Text := '';
+		ThisFakeTextVisual := '';
 		Exit;
 	end;
 
 	if (ThisInput.AnswerReady ) and ( ThisInput.TypingTheQuestion) then begin
-		ShowReply(TheAnswer,0);
+		ShowReply(TheAnswer.Trim,0);
 		NewQuestion();
 		Exit;
 	end;
@@ -256,11 +263,11 @@ begin
 
 	if (ThisFakeText.Length>0) then begin
 		ThisFakeText := ThisFakeText.Substring(0,ThisFakeText.Length-1 );
-		Label_Input.Caption := ThisFakeText;
-
 		if (ThisInput.TypingTheAnswer) and not (ThisInput.AnswerReady) then begin
 			TheAnswer := TheAnswer.Substring(0,TheAnswer.Length-1 );
+			ThisFakeTextVisual := TheAnswer;
 		end;
+		DisplayFakeText(ThisFakeText);
 
 	end;
 
@@ -276,6 +283,7 @@ begin
 	ThisInput.NonBelieverQuestions := 0;
 	NonBelieverIsTakingControl := False;
 	ThisInput.TypingTheAnswer := true;
+	ThisFakeTextVisual := '';
 	AddNextCharacterFromPhase();
 
 end;
@@ -296,13 +304,11 @@ ThisResult := ThisChar;
 /// </remarks>
 
 	if not (CanAskAQuestion) then Exit(#0);
-	if (FastQuit) then Exit(#0);
-
+	if (FastQuit) 					 then Exit(#0);
 	if  ( ThisInput.ESCKeyPressed ) then begin
 			NewQuestion();
 			Exit(#0);
 	end;
-
 
 
 	/// <remarks>
@@ -333,7 +339,6 @@ ThisResult := ThisChar;
 			ProcessKeyAsNormal(ThisChar);
 			Exit(ThisChar);
 	end;
-
 
 
 	ThisInput.QuestionCharBeenPressed := (ThisChar=SpecialCharacter );
@@ -381,16 +386,17 @@ ThisResult := ThisChar;
 
 	if (ThisInput.QuestionCharBeenPressed) and (ThisInput.TypingTheAnswer) then begin
 			//Second time the speciah char is pressed
-			ThisInput.AnswerReady := True;
+			TheAnswer := ' '+ TheAnswer;
 			AddNextCharacterFromPhase();
+
+			ThisInput.AnswerReady := True;
 			Exit(#0);
 	end;
 
 	if (ThisInput.TypingTheAnswer) then begin
 		if (ThisFakeText.Length< SpecialPhase.Length) then begin
-
-			AddNextCharacterFromPhase();
 			TheAnswer := TheAnswer + ThisChar;
+			AddNextCharacterFromPhase();
 			Exit(ThisChar);
 
 		end;
@@ -419,14 +425,20 @@ var
 	ThisFakeText:String;
 begin
 ThisFakeText := Label_Input.Caption;
-Label_Input.Caption := ThisFakeText + SpecialPhase.Substring(ThisFakeText.Length ,1);
+ThisFakeTextVisual := TheAnswer;
+ThisFakeText := ThisFakeText + SpecialPhase.Substring(ThisFakeTextVisual.Length ,1);
+
+//ThisFakeText := ThisFakeTextVisual;
+Label_Input.Caption := ThisFakeText;
 
 end;
 
 
 procedure TFrmMain.ProcessKeyAsNormal(ThisChar:Char);
 begin
-Label_Input.Caption := Label_Input.Caption + ThisChar;
+ThisFakeTextVisual := ThisFakeTextVisual + ThisChar;
+DisplayFakeText(Label_Input.Caption + ThisChar);
+
 end;
 
 procedure TFrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -458,6 +470,22 @@ end;
 
 end;
 
+
+procedure TFrmMain.DisplayFakeText(ThisString:String);
+var
+	FinalText: String;
+begin
+/// <remarks>
+///   Limit of 25 characteres
+/// </remarks>
+
+	FinalText := ThisString;
+
+	if (ThisString.Length>=31) then FinalText := RightStr(ThisString,30);
+	Label_Input.Caption := FinalText;
+
+
+end;
 
 function TFrmMain.BeginSession(): Boolean;
 var
@@ -562,6 +590,7 @@ Edit_Input.SetFocus;
 Timer_Cursor.Enabled := true;
 CanAskAQuestion:= true;
 
+ThisFakeTextVisual:= '';
 
 
 end;
@@ -576,8 +605,9 @@ begin
     end;
 
 		TextFader1.Lines.Clear;
+		TextFader1.LineDelay := 500;
 
-		if (ThisInput.NonBeliever) then
+		if (ThisInput.NonBeliever) or (NonBelieverIsTakingControl) then
 		TextFader1.Lines.Add('qui increduli')
 		else
 		TextFader1.Lines.Add('Vide te mox');
@@ -609,6 +639,19 @@ begin
 TextFader1.Lines.Clear;
 TextFader1.Lines.Add(ThisReply);
 TextFader1.Lines.Add('');
+//calculate time how long the reply is
+
+case ThisReply.Length of
+	0..25  : TextFader1.LineDelay := 1000;
+	26..50 : TextFader1.LineDelay := 2000;
+	51..100: TextFader1.LineDelay := 3000;
+	101..200: TextFader1.LineDelay := 4000;
+	else TextFader1.LineDelay := 5000;
+
+
+end;
+
+
 TextFader1.Active := true;
 
 
@@ -650,7 +693,8 @@ begin
 Timer_Cursor.Enabled := false;
 ThisFakeText := Label_Input.Caption;
 if NOT (ThisFakeText.EndsWith('_')) then ThisFakeText := ThisFakeText + '_';
-Label_Input.Caption := ThisFakeText;
+DisplayFakeText(ThisFakeText);
+//**Label_Input.Caption := ThisFakeText;
 Timer_Cursor.Enabled := true;
 
 
