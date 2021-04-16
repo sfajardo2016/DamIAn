@@ -34,9 +34,21 @@
         <Cfg_1>true</Cfg_1>
         <Base>true</Base>
     </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win64)'!=''">
+        <Cfg_1_Win64>true</Cfg_1_Win64>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
         <Cfg_2>true</Cfg_2>
         <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win64)'!=''">
@@ -46,9 +58,12 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
+        <VerInfo_Locale>2058</VerInfo_Locale>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <SanitizedProjectName>damian</SanitizedProjectName>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
-        <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
+        <Icon_MainIcon>damian.ico</Icon_MainIcon>
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
         <DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
         <DCC_E>false</DCC_E>
@@ -59,18 +74,14 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <DCC_UsePackage>dxBarRS22;JvGlobus;JvMM;dxSpreadSheetConditionalFormattingDialogsRS22;JvManagedThreads;dxRibbonCustomizationFormRS22;FireDACPgDriver;dxFlowChartAdvancedCustomizeFormRS22;dxGaugeControlRS22;dxFireDACEMFRS22;dxPScxVGridLnkRS22;JvCrypt;Intraweb_15_DXE8;OmniThreadLibraryRuntimeXE8;DBXInterBaseDriver;DataSnapServer;DataSnapCommon;dxSpreadSheetInplaceRichEditRS22;dxWizardControlRS22;JvNet;JvDotNetCtrls;DbxCommonDriver;vclimg;fs22;dbxcds;dxServerModeRS22;DatasnapConnectorsFreePascal;appanalytics;dxEMFRS22;dxADOEMFRS22;dxHttpIndyRequestRS22;vcldb;JvXPCtrls;tmswizdXE8;AbkStdBDSXE8;dxSpreadSheetCoreRS22;IWBootstrap4XE8;dxGDIPlusRS22;CustomIPTransport;dsnap;IndyIPServer;IndyCore;CloudService;FmxTeeUI;FireDACIBDriver;JvDB;JvRuntimeDesign;dxPScxPivotGridLnkRS22;dxComnRS22;cxPivotGridChartRS22;dsnapxml;dxPScxPCProdRS22;dxSpellCheckerRS22;FireDACDb2Driver;dxPScxGridLnkRS22;JclDeveloperTools;dxorgcRS22;dxBarExtItemsRS22;dxRibbonRS22;dxPSdxGaugeControlLnkRS22;dxCoreRS22;htmlcomp_xe8;hclcore_xe8;cxVerticalGridRS22;frx22;bindcompfmx;dxSkinsCoreRS22;dxSpreadSheetRS22;FireDACODBCDriver;RESTBackendComponents;cxSchedulerRS22;dbrtl;FireDACCommon;bindcomp;inetdb;cxExportRS22;dxPSDBTeeChartRS22;dxPSdxMapControlLnkRS22;JvPluginSystem;DBXOdbcDriver;JvCmp;vclFireDAC;JvTimeFramework;xmlrtl;dxPSdxDBOCLnkRS22;FireDACCommonDriver;soaprtl;bindengine;vclactnband;FMXTee;dxCloudServiceLibraryRS22;bindcompvcl;dxBarExtDBItemsRS22;dxSpreadSheetCoreConditionalFormattingDialogsRS22;Jcl;vclie;CEF4Delphi_FMX;dxPSdxDBTVLnkRS22;htmleditfm_xe8;dxRichEditControlCoreRS22;frxFD22;dxRichEditInplaceRS22;FireDACMSSQLDriver;DBXInformixDriver;dxPsPrVwAdvRS22;DzHTMLText;tmsexdXE8;dxPScxExtCommonRS22;DataSnapServerMidas;dsnapcon;DBXFirebirdDriver;dxPSPrVwRibbonRS22;inet;dxMapControlRS22;tmsdXE8;dxmdsRS22;JvPascalInterpreter;FireDACMySQLDriver;soapmidas;vclx;dxSpreadSheetReportDesignerRS22;DBXSybaseASADriver;AbkDBStdBDSXE8;dxDockingRS22;RESTComponents;dxTabbedMDIRS22;dxdborRS22;dbexpress;dxPScxTLLnkRS22;IndyIPClient;MSICS_RAD16_Rtl;frxADO22;dxRichEditCoreRS22;FireDACTDataDriver;FireDACSqliteDriver;FireDACDSDriver;DBXSqliteDriver;sedxe8;varcodedxe8;fmx;dxPSdxFCLnkRS22;JvDlgs;IndySystem;TeeDB;tethering;cxSchedulerGridRS22;dxPDFViewerRS22;DataSnapClient;dxNavBarRS22;htmlcompfm_xe8;DataSnapProviderClient;DBXSybaseASEDriver;frxe22;vcldsnap;dxBarDBNavRS22;skinpackdxe8;dxPSCoreRS22;dxPSRichEditControlLnkRS22;dxSpreadSheetCoreDialogsRS22;fmxFireDAC;DBXDb2Driver;DBXOracleDriver;cxGridRS22;JvCore;FrameViewerXE8;vclribbon;fmxase;vcl;DBXMSSQLDriver;IndyIPCommon;DataSnapFireDAC;FireDACDBXDriver;cxPivotGridRS22;dxtrmdRS22;soapserver;dxPScxSchedulerLnkRS22;dxPSdxPDFViewerLnkRS22;bsfdxe8;inetdbxpress;JvAppFrm;FireDACInfxDriver;dxRichEditDocumentModelRS22;dxFireDACServerModeRS22;adortl;cxLibraryRS22;dxPSdxSpreadSheetLnkRS22;JvDocking;JvWizards;dxPSdxLCLnkRS22;FireDACASADriver;JvHMI;dxPScxCommonRS22;htmlreports_xe8;JvBands;emsclientfiredac;rtl;DbxClientDriver;Tee;dxRichEditControlRS22;dxDBXServerModeRS22;dxPSLnksRS22;dxFlowChartRS22;JclContainers;tmsxlsdXE8;JvSystem;DataSnapNativeClient;svnui;dxFlowChartLayoutsRS22;cxTreeListdxBarPopupMenuRS22;JvControls;IndyProtocols;DBXMySQLDriver;dxPSdxOCLnkRS22;bindcompdbx;TeeUI;JvJans;JvPrintPreview;JvPageComps;JvStdCtrls;JvCustom;cxTreeListRS22;fsADO22;frxDB22;FireDACADSDriver;vcltouch;dxADOServerModeRS22;htmledit_xe8;emsclient;dxdbtrRS22;VclSmp;FireDAC;VCLRESTComponents;cxSchedulerRibbonStyleEventEditorRS22;dxTileControlRS22;DataSnapConnectors;htmleditcore_xe8;TsiLang_XE8r;fmxobj;JclVcl;dxPSTeeChartRS22;cxPivotGridOLAPRS22;svn;cxSchedulerTreeBrowserRS22;FireDACOracleDriver;fmxdae;cxSchedulerWebServiceStorageRS22;FireDACMSAccDriver;DataSnapIndy10ServerTransport;dxFlowChartDesignerRS22;$(DCC_UsePackage)</DCC_UsePackage>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_UsePackage>dxBarRS22;dxSpreadSheetConditionalFormattingDialogsRS22;dxRibbonCustomizationFormRS22;FireDACPgDriver;dxFlowChartAdvancedCustomizeFormRS22;dxGaugeControlRS22;dxFireDACEMFRS22;dxPScxVGridLnkRS22;DBXInterBaseDriver;DataSnapServer;DataSnapCommon;dxSpreadSheetInplaceRichEditRS22;dxWizardControlRS22;DbxCommonDriver;vclimg;dbxcds;dxServerModeRS22;DatasnapConnectorsFreePascal;appanalytics;dxEMFRS22;dxADOEMFRS22;dxHttpIndyRequestRS22;vcldb;AbkStdBDSXE8;dxSpreadSheetCoreRS22;dxGDIPlusRS22;CustomIPTransport;dsnap;IndyIPServer;IndyCore;CloudService;FmxTeeUI;FireDACIBDriver;dxPScxPivotGridLnkRS22;dxComnRS22;cxPivotGridChartRS22;dsnapxml;dxPScxPCProdRS22;dxSpellCheckerRS22;FireDACDb2Driver;dxPScxGridLnkRS22;dxorgcRS22;dxBarExtItemsRS22;dxRibbonRS22;dxPSdxGaugeControlLnkRS22;dxCoreRS22;htmlcomp_xe8;hclcore_xe8;cxVerticalGridRS22;bindcompfmx;dxSkinsCoreRS22;dxSpreadSheetRS22;FireDACODBCDriver;RESTBackendComponents;cxSchedulerRS22;dbrtl;FireDACCommon;bindcomp;inetdb;cxExportRS22;dxPSDBTeeChartRS22;dxPSdxMapControlLnkRS22;DBXOdbcDriver;vclFireDAC;xmlrtl;dxPSdxDBOCLnkRS22;FireDACCommonDriver;soaprtl;bindengine;vclactnband;FMXTee;dxCloudServiceLibraryRS22;bindcompvcl;dxBarExtDBItemsRS22;dxSpreadSheetCoreConditionalFormattingDialogsRS22;vclie;CEF4Delphi_FMX;dxPSdxDBTVLnkRS22;dxRichEditControlCoreRS22;dxRichEditInplaceRS22;FireDACMSSQLDriver;DBXInformixDriver;dxPsPrVwAdvRS22;tmsexdXE8;dxPScxExtCommonRS22;DataSnapServerMidas;dsnapcon;DBXFirebirdDriver;dxPSPrVwRibbonRS22;inet;dxMapControlRS22;tmsdXE8;dxmdsRS22;FireDACMySQLDriver;soapmidas;vclx;dxSpreadSheetReportDesignerRS22;DBXSybaseASADriver;AbkDBStdBDSXE8;dxDockingRS22;RESTComponents;dxTabbedMDIRS22;dxdborRS22;dbexpress;dxPScxTLLnkRS22;IndyIPClient;dxRichEditCoreRS22;FireDACTDataDriver;FireDACSqliteDriver;FireDACDSDriver;DBXSqliteDriver;fmx;dxPSdxFCLnkRS22;IndySystem;TeeDB;tethering;cxSchedulerGridRS22;dxPDFViewerRS22;DataSnapClient;dxNavBarRS22;htmlcompfm_xe8;DataSnapProviderClient;DBXSybaseASEDriver;vcldsnap;dxBarDBNavRS22;dxPSCoreRS22;dxPSRichEditControlLnkRS22;dxSpreadSheetCoreDialogsRS22;fmxFireDAC;DBXDb2Driver;DBXOracleDriver;cxGridRS22;vclribbon;fmxase;vcl;DBXMSSQLDriver;IndyIPCommon;DataSnapFireDAC;FireDACDBXDriver;cxPivotGridRS22;dxtrmdRS22;soapserver;dxPScxSchedulerLnkRS22;dxPSdxPDFViewerLnkRS22;inetdbxpress;FireDACInfxDriver;dxRichEditDocumentModelRS22;dxFireDACServerModeRS22;adortl;cxLibraryRS22;dxPSdxSpreadSheetLnkRS22;dxPSdxLCLnkRS22;FireDACASADriver;dxPScxCommonRS22;emsclientfiredac;rtl;DbxClientDriver;Tee;dxRichEditControlRS22;dxDBXServerModeRS22;dxPSLnksRS22;dxFlowChartRS22;DataSnapNativeClient;dxFlowChartLayoutsRS22;cxTreeListdxBarPopupMenuRS22;IndyProtocols;DBXMySQLDriver;dxPSdxOCLnkRS22;bindcompdbx;TeeUI;cxTreeListRS22;FireDACADSDriver;vcltouch;dxADOServerModeRS22;emsclient;dxdbtrRS22;VclSmp;FireDAC;VCLRESTComponents;cxSchedulerRibbonStyleEventEditorRS22;dxTileControlRS22;DataSnapConnectors;fmxobj;dxPSTeeChartRS22;cxPivotGridOLAPRS22;cxSchedulerTreeBrowserRS22;FireDACOracleDriver;fmxdae;cxSchedulerWebServiceStorageRS22;FireDACMSAccDriver;DataSnapIndy10ServerTransport;dxFlowChartDesignerRS22;$(DCC_UsePackage)</DCC_UsePackage>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
@@ -84,8 +95,11 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <Icon_MainIcon>damian.ico</Icon_MainIcon>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -93,10 +107,13 @@
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <Icon_MainIcon>damian.ico</Icon_MainIcon>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -536,13 +553,13 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
             </Deployment>
             <Platforms>
                 <Platform value="Win32">True</Platform>

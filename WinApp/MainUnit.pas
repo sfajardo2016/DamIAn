@@ -25,11 +25,9 @@ type
     Panel_Input: TPanel;
     Label_Input: TLabel;
 		VarCoded: TVarCodedxe81;
-		Timer_StartUp: TTimer;
     Timer_Cursor: TTimer;
     Timer_Close: TTimer;
     procedure FormCreate(Sender: TObject);
-    procedure Timer_StartUpTimer(Sender: TObject);
     procedure Edit_InputKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure Edit_InputKeyPress(Sender: TObject; var Key: Char);
@@ -55,6 +53,8 @@ type
 		ThisInput: TDamianInput;
 		ThisFakeTextVisual: String;
 
+		MaxVisibleCharactes:SmallInt;
+
 
 
 		procedure NewQuestion();
@@ -77,6 +77,7 @@ type
     procedure DisplayFakeText(ThisString: String);
     procedure FirstReplyToBeliever;
     procedure SetSkin(SkinType: SmallInt);
+    procedure ShowTime;
 
 
   public
@@ -149,17 +150,36 @@ uses SettingsUnit;
 procedure TFrmMain.ShowSettings();
 {$REGION 'Settings'}
   var
-  	FrmSettings: TFrmSettings;
+		FrmSettings: TFrmSettings;
+		SkinID: SmallInt;
   begin
   
   	FrmSettings:= TFrmSettings.Create(FrmMain);
-  	FrmSettings.Edit_SpecialPhase.Text := SpecialPhase.Replace('Damian ','');
-  	FrmSettings.ShowModal;
-  	SpecialPhase := 'Damian ' + FrmSettings.Edit_SpecialPhase.Text;
-  	/// <remarks>
-    ///   Save the special phase encrypted
-    /// </remarks>
-  	varcoded.WriteINI('System','ID',EncryptStr(SpecialPhase,1972));
+		FrmSettings.Edit_SpecialPhase.Text := SpecialPhase.Replace('Damian ','');
+
+	SkinID:= 0;
+	try
+			SkinID:= StrToInt(varcoded.ReadINI('System','SkinID','0'));
+
+
+	except on E: Exception do
+	End;
+
+	  FrmSettings.ComboBox_Skin.ItemIndex := SkinID;
+
+		FrmSettings.ShowModal;
+
+
+
+		SpecialPhase := 'Damian ' + FrmSettings.Edit_SpecialPhase.Text;
+		/// <remarks>
+		///   Save the special phase encrypted
+		/// </remarks>
+		varcoded.WriteINI('System','ID',EncryptStr(SpecialPhase,1972));
+		SkinID := FrmSettings.ComboBox_Skin.ItemIndex;
+		varcoded.WriteINI('System','SkinID',SkinID.ToString());
+		//Re-apply the skin
+    SetSkin(SkinID);
 
   
 {$ENDREGION}
@@ -197,11 +217,18 @@ end;
 procedure TFrmMain.SetSkin(SkinType:SmallInt);
 begin
 
+spSkinData1.SkinIndex := SkinType;
+
+
+
+
 if (SkinType=0) then begin //Spiritual
-  TextFader1.Left := 36;
-  TextFader1.Top := 104;
-  TextFader1.Width := 229;
-  TextFader1.Height := 105;
+	TextFader1.Left := 36;
+	TextFader1.Top := 104;
+	TextFader1.Width := 229;
+	TextFader1.Height := 105;
+	TextFader1.Font.Size := 12;
+
 
 	Edit_Input.Left := 224;
 	Edit_Input.Top := 270;
@@ -213,10 +240,41 @@ if (SkinType=0) then begin //Spiritual
 	Panel_Input.Width := 230;
 	Panel_Input.Height := 20;
 
+	Label_Input.Font.Color := clWhite;
 
+	MaxVisibleCharactes:= 30;
+
+
+end else begin
+
+
+	TextFader1.Left := 288;
+	TextFader1.Top := 72;
+	TextFader1.Width := 409;
+	TextFader1.Height := 321;
+	TextFader1.Font.Size := 20;
+
+
+	Edit_Input.Left := 600;
+	Edit_Input.Top := 465;
+	Edit_Input.Width := 20;
+	Edit_Input.Height := 10;
+
+
+
+	Panel_Input.Left := 308;
+	Panel_Input.Top := 460;
+	Panel_Input.Width := 437;
+	Panel_Input.Height := 20;
+
+	Label_Input.Font.Color := clBlack;
+
+	MaxVisibleCharactes:= 50;
 
 end;
 
+//Re-Center
+FrmMain.Position := poScreenCenter;
 
 
 end;
@@ -476,7 +534,23 @@ end;
 
 procedure TFrmMain.FormCreate(Sender: TObject);
 begin
-Timer_StartUp.Enabled:= true;
+//Timer_StartUp.Enabled:= true;
+
+if not (BeginSession) then begin
+
+	Sleep(100);
+	Application.Terminate;
+	Exit;
+
+
+
+end;
+
+
+
+FrmMain.Visible := true;
+ShowTime();
+
 end;
 
 
@@ -502,12 +576,12 @@ var
 	FinalText: String;
 begin
 /// <remarks>
-///   Limit of 25 characteres
+///   Limit of characteres
 /// </remarks>
 
 	FinalText := ThisString;
 
-	if (ThisString.Length>=31) then FinalText := RightStr(ThisString,30);
+	if (ThisString.Length>= MaxVisibleCharactes ) then FinalText := RightStr(ThisString,MaxVisibleCharactes);
 	Label_Input.Caption := FinalText;
 
 
@@ -519,15 +593,42 @@ var
 	ThisRandom: SmallInt;
 
 begin
+/// <remarks>
+///   Removed, as its confusing to read
+/// </remarks>
+///
+///
 
+	Exit;
 	ThisRandom := Random(8); //0...7
 	ShowReply( RepliesToBeliever[ThisRandom],0  );
+
+end;
+
+procedure TFrmMain.ShowTime();
+begin
+TextFader1.Lines.Clear;
+TextFader1.Lines.Add('meum nomen est');
+TextFader1.Lines.Add('');
+TextFader1.Lines.Add('Damian');
+TextFader1.Lines.Add('');
+TextFader1.LineDelay := 1500;
+TextFader1.Active := true;
+
+
+
+
+
+NewQuestion();
+
+
 
 end;
 
 function TFrmMain.BeginSession(): Boolean;
 var
 	ThisResult: Boolean;
+	SkinID: SmallInt;
 
 begin
 ThisResult := True;
@@ -548,12 +649,22 @@ varcoded.SetCreator(APPCREATOR);
 if NOT ( varcoded.IsValidInstallation() ) then
 begin
 if (true) then
-
-		ShowMessage('This installation is not valid, try reinstalling this application.');
-
-
+		MessageBox(0, 'INI file is not valid, try reinstalling this application.', 'Damian is not happy', MB_ICONWARNING or MB_OK);
 		exit ( false );
 end;
+
+
+if NOT (FileExists('.\Damian.Lan')) then
+begin
+if (true) then
+		MessageBox(0, 'Language file is missing, try reinstalling this application.', 'Damian is not happy', MB_ICONWARNING or MB_OK);
+		exit ( false );
+end;
+
+
+
+
+
 
 /// <remarks>
 ///   log disable for production
@@ -603,24 +714,15 @@ SpecialPhase := DecryptStr (Varcoded.ReadINI('System','ID',''),1972);
 if SpecialPhase.Length<6 then SpecialPhase := 'Damian paulo diaboli audite me';
 
 SpecialCharacter := ',';
+//Get skin
 
+	SkinID:= 0;
+	try
+			SkinID:= StrToInt(varcoded.ReadINI('System','SkinID','0'));
+	except on E: Exception do
+	End;
 
-TextFader1.Lines.Clear;
-TextFader1.Lines.Add('meum nomen est');
-TextFader1.Lines.Add('');
-TextFader1.Lines.Add('Damian');
-TextFader1.Lines.Add('');
-TextFader1.LineDelay := 1500;
-TextFader1.Active := true;
-
-
-NewQuestion();
-
-
-
-SetSkin(0);
-
-
+SetSkin(SkinID);
 
 
 result := ThisResult;
@@ -715,15 +817,6 @@ end;
 
 
 
-
-procedure TFrmMain.Timer_StartUpTimer(Sender: TObject);
-begin
-Timer_StartUp.Enabled:=false;
-if not (BeginSession()) then close;
-
-
-
-end;
 
 procedure TFrmMain.Timer_CloseTimer(Sender: TObject);
 begin

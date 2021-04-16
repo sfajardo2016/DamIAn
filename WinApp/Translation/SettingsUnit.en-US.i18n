@@ -5,21 +5,21 @@
       <Value>Settings</Value>
       <Translation Locale="es-MX">Configuración</Translation>
       <Translation Locale="en-US">Settings</Translation>
-      <Translation Locale="fr-FR">Les paramètres </Translation>
+      <Translation Locale="fr-FR">Paramètres </Translation>
       <Translation Locale="de-DE">Einstellungen</Translation>
     </Property>
     <Property ID="Label2.Caption">
       <Value>Special phase</Value>
       <Translation Locale="es-MX">Frase especial</Translation>
       <Translation Locale="en-US">Special phase</Translation>
-      <Translation Locale="fr-FR">phase spéciale</Translation>
+      <Translation Locale="fr-FR">Phase spéciale</Translation>
       <Translation Locale="de-DE">Sonderphase</Translation>
     </Property>
     <Property ID="LinkLabel21.Caption">
       <Value>For support click here</Value>
       <Translation Locale="es-MX">Para soporte da click aqui</Translation>
       <Translation Locale="en-US">For support click here</Translation>
-      <Translation Locale="fr-FR">pour obtenir de l'aide, cliquez ici </Translation>
+      <Translation Locale="fr-FR">Pour obtenir de l'aide, cliquez ici </Translation>
       <Translation Locale="de-DE">Für Support klicken Sie sier</Translation>
     </Property>
     <Property ID="Label4.Caption">
@@ -28,6 +28,27 @@
       <Translation Locale="en-US">Language</Translation>
       <Translation Locale="fr-FR">Langue</Translation>
       <Translation Locale="de-DE">Sprache</Translation>
+    </Property>
+    <Property ID="ComboBox_Skin.Items[0]">
+      <Value>Spiritual</Value>
+      <Translation Locale="en-US">Spiritual</Translation>
+      <Translation Locale="fr-FR">Spirituel </Translation>
+      <Translation Locale="es-MX">Espiritual</Translation>
+      <Translation Locale="de-DE">Spirituell </Translation>
+    </Property>
+    <Property ID="ComboBox_Skin.Items[1]">
+      <Value>Science</Value>
+      <Translation Locale="en-US">Science</Translation>
+      <Translation Locale="fr-FR">Science</Translation>
+      <Translation Locale="es-MX">Ciencia</Translation>
+      <Translation Locale="de-DE">Wissenschaft </Translation>
+    </Property>
+    <Property ID="Label5.Caption">
+      <Value>Skin/Theme</Value>
+      <Translation Locale="en-US">Skin/Theme</Translation>
+      <Translation Locale="fr-FR">Thème </Translation>
+      <Translation Locale="es-MX">Tema</Translation>
+      <Translation Locale="de-DE">Thema </Translation>
     </Property>
   </Domain>
 </i18nCatalog>

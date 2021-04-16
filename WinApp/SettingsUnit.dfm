@@ -21,25 +21,12 @@ object FrmSettings: TFrmSettings
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 35
-    Top = 40
-    Width = 230
-    Height = 52
-    Caption = 'Damian v1.0'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -45
-    Font.Name = 'Times New Roman'
-    Font.Style = []
-    ParentFont = False
-  end
   object Label2: TLabel
-    Left = 32
-    Top = 159
-    Width = 65
+    Left = 35
+    Top = 146
+    Width = 135
     Height = 13
-    Caption = 'Special phase'
+    Caption = 'Special phase ( Damian . . .)'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWhite
     Font.Height = -11
@@ -48,8 +35,8 @@ object FrmSettings: TFrmSettings
     ParentFont = False
   end
   object LinkLabel21: TLinkLabel2
-    Left = 99
-    Top = 356
+    Left = 76
+    Top = 322
     Width = 103
     Height = 13
     Cursor = crHandPoint
@@ -65,22 +52,9 @@ object FrmSettings: TFrmSettings
     HREF = 'https://steam.com'
     Visited = False
   end
-  object Label3: TLabel
-    Left = 44
-    Top = 178
-    Width = 35
-    Height = 13
-    Caption = 'Damian'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWhite
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
   object Label4: TLabel
-    Left = 32
-    Top = 242
+    Left = 35
+    Top = 197
     Width = 47
     Height = 13
     Caption = 'Language'
@@ -92,11 +66,11 @@ object FrmSettings: TFrmSettings
     ParentFont = False
   end
   object Label5: TLabel
-    Left = 32
-    Top = 135
-    Width = 65
+    Left = 35
+    Top = 100
+    Width = 32
     Height = 13
-    Caption = 'Special phase'
+    Caption = 'Theme'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWhite
     Font.Height = -11
@@ -104,35 +78,66 @@ object FrmSettings: TFrmSettings
     Font.Style = []
     ParentFont = False
   end
+  object AdvSmoothLabel1: TAdvSmoothLabel
+    Left = 23
+    Top = 20
+    Width = 254
+    Height = 82
+    Fill.Color = clBlack
+    Fill.ColorTo = clBlack
+    Fill.ColorMirror = clNone
+    Fill.ColorMirrorTo = clNone
+    Fill.GradientType = gtVertical
+    Fill.GradientMirrorType = gtSolid
+    Fill.BorderColor = clNone
+    Fill.Rounding = 0
+    Fill.ShadowOffset = 0
+    Fill.Glow = gmNone
+    Caption.Text = 'Damian'
+    Caption.Font.Charset = DEFAULT_CHARSET
+    Caption.Font.Color = clWindowText
+    Caption.Font.Height = -64
+    Caption.Font.Name = 'Tahoma'
+    Caption.Font.Style = []
+    Caption.ColorStart = 8454143
+    Caption.ColorEnd = clRed
+    CaptionShadow.Text = 'Damian'
+    CaptionShadow.Font.Charset = DEFAULT_CHARSET
+    CaptionShadow.Font.Color = clWindowText
+    CaptionShadow.Font.Height = -27
+    CaptionShadow.Font.Name = 'Tahoma'
+    CaptionShadow.Font.Style = []
+    Version = '1.6.1.0'
+  end
   object Edit_SpecialPhase: TEdit
-    Left = 103
-    Top = 175
+    Left = 35
+    Top = 165
     Width = 145
     Height = 21
-    TabOrder = 0
+    TabOrder = 1
     Text = 'paulo diaboli audite me'
   end
   object CultureListBox1: TCultureListBox
-    Left = 99
-    Top = 242
-    Width = 121
-    Height = 97
+    Left = 35
+    Top = 216
+    Width = 227
+    Height = 81
     Color = clWindow
     Items.Cultures = (
       '*')
     Localizer = Localizer1
-    TabOrder = 1
+    TabOrder = 2
   end
   object ComboBox_Skin: TComboBox
-    Left = 103
-    Top = 132
+    Left = 35
+    Top = 119
     Width = 145
     Height = 21
     Style = csDropDownList
-    TabOrder = 2
+    TabOrder = 0
     Items.Strings = (
       'Spiritual'
-      'Default')
+      'Science')
   end
   object spCompressedSkinList1: TspCompressedSkinList
     Skins = <
@@ -1676,8 +1681,11 @@ object FrmSettings: TFrmSettings
     Localizer = Localizer1
     Translatables.Properties = (
       '.Caption'
+      'ComboBox_Skin.Items[0]'
+      'ComboBox_Skin.Items[1]'
       'Label2.Caption'
       'Label4.Caption'
+      'Label5.Caption'
       'LinkLabel21.Caption')
     Left = 56
   end
