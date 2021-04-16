@@ -1,6 +1,7 @@
 object FrmMain: TFrmMain
   Left = 0
   Top = 0
+  BiDiMode = bdLeftToRight
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Damian'
@@ -13,6 +14,7 @@ object FrmMain: TFrmMain
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  ParentBiDiMode = False
   Position = poDesktopCenter
   OnClose = FormClose
   OnCreate = FormCreate
@@ -22,10 +24,10 @@ object FrmMain: TFrmMain
     Left = 36
     Top = 104
     Width = 229
-    Height = 65
+    Height = 105
     FadeDelay = 10
     Font.Charset = ANSI_CHARSET
-    Font.Color = clBlack
+    Font.Color = clYellow
     Font.Height = -16
     Font.Name = 'Arial Unicode MS'
     Font.Style = [fsBold]
@@ -33,7 +35,6 @@ object FrmMain: TFrmMain
     ParentFont = False
     RepeatCount = 1
     Transparent = True
-    OnComplete = TextFader1Complete
   end
   object Edit_Input: TEdit
     Left = 224
@@ -69,7 +70,7 @@ object FrmMain: TFrmMain
       Height = 20
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWhite
       Font.Height = -16
       Font.Name = 'Tahoma'
       Font.Style = []
@@ -3461,8 +3462,8 @@ object FrmMain: TFrmMain
     LoginName = 'SFAJARDO'
     UseOriginalCreator = True
     FriendlyAppName = 'varcoded'
-    Left = 136
-    Top = 184
+    Left = 248
+    Top = 144
   end
   object Timer_Cursor: TTimer
     Enabled = False
@@ -3472,7 +3473,6 @@ object FrmMain: TFrmMain
   end
   object Timer_Close: TTimer
     Enabled = False
-    Interval = 2000
     OnTimer = Timer_CloseTimer
     Left = 208
   end

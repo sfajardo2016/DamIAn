@@ -1,6 +1,7 @@
 object FrmSettings: TFrmSettings
   Left = 0
   Top = 0
+  BiDiMode = bdLeftToRight
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Settings'
@@ -14,6 +15,7 @@ object FrmSettings: TFrmSettings
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
+  ParentBiDiMode = False
   Position = poOwnerFormCenter
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
@@ -21,7 +23,7 @@ object FrmSettings: TFrmSettings
   TextHeight = 13
   object Label1: TLabel
     Left = 35
-    Top = 56
+    Top = 40
     Width = 230
     Height = 52
     Caption = 'Damian v1.0'
@@ -33,7 +35,7 @@ object FrmSettings: TFrmSettings
     ParentFont = False
   end
   object Label2: TLabel
-    Left = 24
+    Left = 32
     Top = 159
     Width = 65
     Height = 13
@@ -46,24 +48,26 @@ object FrmSettings: TFrmSettings
     ParentFont = False
   end
   object LinkLabel21: TLinkLabel2
-    Left = 65
-    Top = 229
+    Left = 99
+    Top = 356
     Width = 103
     Height = 13
     Cursor = crHandPoint
     Caption = 'For support click here'
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clBlue
+    Font.Color = clYellow
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = [fsUnderline]
     ParentFont = False
+    ColorUnvisited = clYellow
+    ColorVisited = clYellow
     HREF = 'https://steam.com'
     Visited = False
   end
   object Label3: TLabel
-    Left = 24
-    Top = 189
+    Left = 44
+    Top = 178
     Width = 35
     Height = 13
     Caption = 'Damian'
@@ -74,13 +78,61 @@ object FrmSettings: TFrmSettings
     Font.Style = []
     ParentFont = False
   end
+  object Label4: TLabel
+    Left = 32
+    Top = 242
+    Width = 47
+    Height = 13
+    Caption = 'Language'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label5: TLabel
+    Left = 32
+    Top = 135
+    Width = 65
+    Height = 13
+    Caption = 'Special phase'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
   object Edit_SpecialPhase: TEdit
-    Left = 65
-    Top = 186
-    Width = 200
+    Left = 103
+    Top = 175
+    Width = 145
     Height = 21
     TabOrder = 0
     Text = 'paulo diaboli audite me'
+  end
+  object CultureListBox1: TCultureListBox
+    Left = 99
+    Top = 242
+    Width = 121
+    Height = 97
+    Color = clWindow
+    Items.Cultures = (
+      '*')
+    Localizer = Localizer1
+    TabOrder = 1
+  end
+  object ComboBox_Skin: TComboBox
+    Left = 103
+    Top = 132
+    Width = 145
+    Height = 21
+    Style = csDropDownList
+    TabOrder = 2
+    Items.Strings = (
+      'Spiritual'
+      'Default')
   end
   object spCompressedSkinList1: TspCompressedSkinList
     Skins = <
@@ -1521,8 +1573,8 @@ object FrmSettings: TFrmSettings
           A8FD833B177631420139517D703B00CD4364856CA8FB543B88C418629B7A2FAF
           A3417866B18D1DD626722AE785AE2E737BF8DBFF03C0DA57D0}
       end>
-    Left = 296
-    Top = 16
+    Left = 264
+    Top = 8
   end
   object spSkinData1: TspSkinData
     DlgTreeViewDrawSkin = True
@@ -1536,12 +1588,11 @@ object FrmSettings: TFrmSettings
     AeroBlurEnabled = True
     ShowButtonGlowFrames = True
     ShowCaptionButtonGlowFrames = True
-    SkinList = spCompressedSkinList1
     SkinIndex = 0
     ChangeSystemColors = False
     SystemColorHooks = [spschHighLight]
-    Left = 264
-    Top = 16
+    Left = 224
+    Top = 8
   end
   object spDynamicSkinForm1: TspDynamicSkinForm
     UseRibbon = False
@@ -1617,7 +1668,20 @@ object FrmSettings: TFrmSettings
     Magnetic = True
     MagneticSize = 10
     BorderIcons = [biSystemMenu, biMinimize, biMaximize, biRollUp]
-    Left = 224
-    Top = 16
+    Left = 192
+    Top = 8
+  end
+  object Translator1: TTranslator
+    Localizer = Localizer1
+    Translatables.Properties = (
+      '.Caption'
+      'Label2.Caption'
+      'Label4.Caption'
+      'LinkLabel21.Caption')
+    Left = 56
+  end
+  object Localizer1: TLocalizer
+    URI = '.\Damian.Lan'
+    Left = 24
   end
 end

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<i18nCatalog Version="1.0" Locale="en-US">
+  <Domain Name="FrmMain">
+    <Literal ID="3647FEF129CEE4198E6E68FA9107D3D3">
+      <Value>This installation is not valid, try reinstalling this app</Value>
+      <Translation Locale="es-MX">Esta instalación no es válida, vuelve a reinstalar la aplicación.</Translation>
+      <Translation Locale="en-US">This installation is not valid, try reinstalling this application.</Translation>
+      <Translation Locale="fr-FR">Cette installation n'est pas valide, essayez de réinstaller cette application.</Translation>
+      <Translation Locale="de-DE">Diese Installation ist ungültig. Versuchen Sie, diese App neu zu installieren.</Translation>
+    </Literal>
+  </Domain>
+</i18nCatalog>

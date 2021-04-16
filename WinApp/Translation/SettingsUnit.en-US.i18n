@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<i18nCatalog Version="1.0" Locale="en-US">
+  <Domain Name="FrmSettings">
+    <Property ID=".Caption">
+      <Value>Settings</Value>
+      <Translation Locale="es-MX">Configuración</Translation>
+      <Translation Locale="en-US">Settings</Translation>
+      <Translation Locale="fr-FR">Les paramètres </Translation>
+      <Translation Locale="de-DE">Einstellungen</Translation>
+    </Property>
+    <Property ID="Label2.Caption">
+      <Value>Special phase</Value>
+      <Translation Locale="es-MX">Frase especial</Translation>
+      <Translation Locale="en-US">Special phase</Translation>
+      <Translation Locale="fr-FR">phase spéciale</Translation>
+      <Translation Locale="de-DE">Sonderphase</Translation>
+    </Property>
+    <Property ID="LinkLabel21.Caption">
+      <Value>For support click here</Value>
+      <Translation Locale="es-MX">Para soporte da click aqui</Translation>
+      <Translation Locale="en-US">For support click here</Translation>
+      <Translation Locale="fr-FR">pour obtenir de l'aide, cliquez ici </Translation>
+      <Translation Locale="de-DE">Für Support klicken Sie sier</Translation>
+    </Property>
+    <Property ID="Label4.Caption">
+      <Value>Language</Value>
+      <Translation Locale="es-MX">Lenguaje</Translation>
+      <Translation Locale="en-US">Language</Translation>
+      <Translation Locale="fr-FR">Langue</Translation>
+      <Translation Locale="de-DE">Sprache</Translation>
+    </Property>
+  </Domain>
+</i18nCatalog>

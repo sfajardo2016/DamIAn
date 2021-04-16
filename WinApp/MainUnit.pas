@@ -10,8 +10,11 @@ uses
 	DamianInputUnit,
 	System.StrUtils,
 
-	Vcl.ExtCtrls, bsSkinCtrls, varcodedxe81, JvExControls, JvInspector;
+	Vcl.ExtCtrls, bsSkinCtrls, varcodedxe81, JvExControls, i18nCore,
+  i18nLocalizer;
 
+	CONST
+		APPCREATOR =  'Zaphod (View "Settings" for support link)';
 type
   TFrmMain = class(TForm)
     spCompressedSkinList1: TspCompressedSkinList;
@@ -30,8 +33,7 @@ type
     procedure Edit_InputKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure Edit_InputKeyPress(Sender: TObject; var Key: Char);
-    procedure TextFader1Complete(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+		procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Timer_CursorTimer(Sender: TObject);
     procedure Timer_CloseTimer(Sender: TObject);
 	private
@@ -50,12 +52,8 @@ type
 		TheAnswer: String;
 		FastQuit:Boolean;
 
-		CanAskAQuestion: Boolean;
-
 		ThisInput: TDamianInput;
 		ThisFakeTextVisual: String;
-
-
 
 
 
@@ -67,7 +65,7 @@ type
 		procedure ShowReply(ThisReply: String; ThisType: Smallint);
 		procedure NonBelieverAsked;
     procedure ProcessKeyAsNormal(ThisChar: Char);
-    procedure AddNextCharacterFromPhase;
+		procedure AddNextCharacterFromPhase;
     procedure ShowSettings;
     function BeginSession: Boolean;
     procedure EndProgram;
@@ -77,6 +75,8 @@ type
     function  ProcessNewChar(ThisChar: Char): Char;
 		procedure ProcessFirstSpecialChar;
     procedure DisplayFakeText(ThisString: String);
+    procedure FirstReplyToBeliever;
+    procedure SetSkin(SkinType: SmallInt);
 
 
   public
@@ -93,17 +93,17 @@ implementation
 uses SettingsUnit;
 
 {$REGION 'Encrypt/Decrypt for the special phase stored in the INI'}
-  
-  
+
+
 	const CKEY1 = 1990;
         CKEY2 = 2018;
-  
+
   function EncryptStr(const S :WideString; Key: Word): String;
   var   i          :Integer;
         RStr       :RawByteString;
         RStrB      :TBytes Absolute RStr;
   begin
-    Result:= '';
+		Result:= '';
     RStr:= UTF8Encode(S);
     for i := 0 to Length(RStr)-1 do begin
       RStrB[i] := RStrB[i] xor (Key shr 8);
@@ -113,7 +113,7 @@ uses SettingsUnit;
       Result:= Result + IntToHex(RStrB[i], 2);
     end;
   end;
-  
+
   function DecryptStr(const S: String; Key: Word): String;
   var   i, tmpKey  :Integer;
         RStr       :RawByteString;
@@ -140,25 +140,29 @@ uses SettingsUnit;
 //    Result:= UTF8Decode(RStr);
 		Result:= UTF8ToWideString(RStr);
   end;
-  
-  
+
+
 {$ENDREGION}
 
+
+
 procedure TFrmMain.ShowSettings();
-var
-	FrmSettings: TFrmSettings;
-begin
+{$REGION 'Settings'}
+  var
+  	FrmSettings: TFrmSettings;
+  begin
+  
+  	FrmSettings:= TFrmSettings.Create(FrmMain);
+  	FrmSettings.Edit_SpecialPhase.Text := SpecialPhase.Replace('Damian ','');
+  	FrmSettings.ShowModal;
+  	SpecialPhase := 'Damian ' + FrmSettings.Edit_SpecialPhase.Text;
+  	/// <remarks>
+    ///   Save the special phase encrypted
+    /// </remarks>
+  	varcoded.WriteINI('System','ID',EncryptStr(SpecialPhase,1972));
 
-	FrmSettings:= TFrmSettings.Create(FrmMain);
-	FrmSettings.Edit_SpecialPhase.Text := SpecialPhase.Replace('Damian ','');
-	FrmSettings.ShowModal;
-	SpecialPhase := 'Damian ' + FrmSettings.Edit_SpecialPhase.Text;
-	/// <remarks>
-  ///   Save the special phase encrypted
-  /// </remarks>
-	varcoded.WriteINI('System','ID',EncryptStr(SpecialPhase,1972));
-
-
+  
+{$ENDREGION}
 end;
 
 
@@ -167,7 +171,7 @@ procedure TFrmMain.Edit_InputKeyDown(Sender: TObject; var Key: Word;
 
 begin
 /// <remarks>
-///   Special Keys and flags
+///   Special Keys and flags procedure
 /// </remarks>
 ///
 
@@ -175,13 +179,10 @@ begin
 	ThisInput.BackSpaceWasPressed := False;
 
 	if (ssAlt in Shift) and ( ssCtrl in Shift ) and ( Key = 88 )  then begin
-	{$REGION 'Ctrl + Alt +  X'}
 			//Ctrl + Alt + X
 			ShowSettings();
 			Exit;
 		end;
-
-{$ENDREGION}
 
 	if (Key=VK_ESCAPE) then ProcessESC() else ThisInput.ESCKeyPressedCounter:=0;
 	if (Key=VK_RETURN) then ProcessENTER();
@@ -193,6 +194,33 @@ end;
 
 
 
+procedure TFrmMain.SetSkin(SkinType:SmallInt);
+begin
+
+if (SkinType=0) then begin //Spiritual
+  TextFader1.Left := 36;
+  TextFader1.Top := 104;
+  TextFader1.Width := 229;
+  TextFader1.Height := 105;
+
+	Edit_Input.Left := 224;
+	Edit_Input.Top := 270;
+	Edit_Input.Width := 10;
+	Edit_Input.Height := 10;
+
+	Panel_Input.Left := 35;
+	Panel_Input.Top := 265;
+	Panel_Input.Width := 230;
+	Panel_Input.Height := 20;
+
+
+
+end;
+
+
+
+end;
+
 
 
 procedure TFrmMain.ProcessESC();
@@ -200,6 +228,7 @@ begin
 
 		/// <remarks>
 	///   If you hit ESC key 2 times, the nonbeliever flag is activated
+  ///  and the app will be closed after 3 questions
 	/// </remarks>
 
 			ThisInput.ESCKeyPressed:= True;
@@ -220,7 +249,6 @@ End;
 
 procedure TFrmMain.ProcessENTER();
 begin
-	//new question for now
 
 	if (ThisInput.NonBeliever) or (NonBelieverIsTakingControl) then begin
 		NonBelieverAsked;
@@ -230,9 +258,7 @@ begin
 	if (ThisInput.AnswerReady ) and (TheAnswer.ToLower.Equals('vale')) then begin
 		EndProgram();
 		Exit;
-
-
-  end;
+	end;
 
 	if (ThisInput.AnswerReady ) and (ThisInput.TypingTheAnswer) then begin
 		ThisInput.TypingTheAnswer := false;
@@ -240,6 +266,7 @@ begin
 		Label_Input.Caption := '';
 		Edit_Input.Text := '';
 		ThisFakeTextVisual := '';
+		FirstReplyToBeliever();
 		Exit;
 	end;
 
@@ -303,7 +330,6 @@ ThisResult := ThisChar;
 ///   Exit(#0) means cancel the character
 /// </remarks>
 
-	if not (CanAskAQuestion) then Exit(#0);
 	if (FastQuit) 					 then Exit(#0);
 	if  ( ThisInput.ESCKeyPressed ) then begin
 			NewQuestion();
@@ -487,6 +513,18 @@ begin
 
 end;
 
+
+procedure TFrmMain.FirstReplyToBeliever();
+var
+	ThisRandom: SmallInt;
+
+begin
+
+	ThisRandom := Random(8); //0...7
+	ShowReply( RepliesToBeliever[ThisRandom],0  );
+
+end;
+
 function TFrmMain.BeginSession(): Boolean;
 var
 	ThisResult: Boolean;
@@ -504,12 +542,16 @@ ThisResult := True;
 
 
 
-varcoded.SetCreator('Zaphod (See "About" for contact)');
+varcoded.SetCreator(APPCREATOR);
 
 
 if NOT ( varcoded.IsValidInstallation() ) then
 begin
-		ShowMessage('This installation is not valid, try reinstalling this app' );
+if (true) then
+
+		ShowMessage('This installation is not valid, try reinstalling this application.');
+
+
 		exit ( false );
 end;
 
@@ -561,10 +603,22 @@ SpecialPhase := DecryptStr (Varcoded.ReadINI('System','ID',''),1972);
 if SpecialPhase.Length<6 then SpecialPhase := 'Damian paulo diaboli audite me';
 
 SpecialCharacter := ',';
-ShowReply('ne iterum',0); //not again
+
+
+TextFader1.Lines.Clear;
+TextFader1.Lines.Add('meum nomen est');
+TextFader1.Lines.Add('');
+TextFader1.Lines.Add('Damian');
+TextFader1.Lines.Add('');
+TextFader1.LineDelay := 1500;
+TextFader1.Active := true;
+
+
 NewQuestion();
 
 
+
+SetSkin(0);
 
 
 
@@ -588,7 +642,6 @@ Edit_Input.Text:='';
 Edit_Input.SetFocus;
 
 Timer_Cursor.Enabled := true;
-CanAskAQuestion:= true;
 
 ThisFakeTextVisual:= '';
 
@@ -605,7 +658,7 @@ begin
     end;
 
 		TextFader1.Lines.Clear;
-		TextFader1.LineDelay := 500;
+		TextFader1.LineDelay := 1000;
 
 		if (ThisInput.NonBeliever) or (NonBelieverIsTakingControl) then
 		TextFader1.Lines.Add('qui increduli')
@@ -635,7 +688,6 @@ begin
 /// <remarks>
 ///   Else just show the reply
 /// </remarks>
-
 TextFader1.Lines.Clear;
 TextFader1.Lines.Add(ThisReply);
 TextFader1.Lines.Add('');
@@ -655,7 +707,7 @@ end;
 TextFader1.Active := true;
 
 
-	
+
 
 end;
 
@@ -663,11 +715,6 @@ end;
 
 
 
-
-procedure TFrmMain.TextFader1Complete(Sender: TObject);
-begin
-CanAskAQuestion := true;
-end;
 
 procedure TFrmMain.Timer_StartUpTimer(Sender: TObject);
 begin

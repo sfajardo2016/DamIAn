@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, DynamicSkinForm, SkinData,
-  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, LinkLabel2;
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, LinkLabel2, i18nCore,
+  i18nLocalizer, i18nCtrls;
 
 type
   TFrmSettings = class(TForm)
@@ -16,8 +17,14 @@ type
     Label2: TLabel;
     Edit_SpecialPhase: TEdit;
     LinkLabel21: TLinkLabel2;
-    Label3: TLabel;
-    procedure FormKeyDown(Sender: TObject; var Key: Word;
+		Label3: TLabel;
+		CultureListBox1: TCultureListBox;
+    Label4: TLabel;
+    Translator1: TTranslator;
+    Localizer1: TLocalizer;
+    Label5: TLabel;
+    ComboBox_Skin: TComboBox;
+		procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
   private
@@ -34,6 +41,8 @@ implementation
 
 {$R *.dfm}
 
+
+uses MainUnit;
 procedure TFrmSettings.FormCreate(Sender: TObject);
 begin
 ESCPressedCounter:=0;
