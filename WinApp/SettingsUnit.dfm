@@ -37,10 +37,10 @@ object FrmSettings: TFrmSettings
   object LinkLabel21: TLinkLabel2
     Left = 76
     Top = 322
-    Width = 103
+    Width = 149
     Height = 13
     Cursor = crHandPoint
-    Caption = 'For support click here'
+    Caption = 'For support click here (Discord)'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clYellow
     Font.Height = -11
@@ -49,7 +49,7 @@ object FrmSettings: TFrmSettings
     ParentFont = False
     ColorUnvisited = clYellow
     ColorVisited = clYellow
-    HREF = 'https://steam.com'
+    HREF = 'https://discord.gg/CkhTsRTxG4'
     Visited = False
   end
   object Label4: TLabel
@@ -1690,7 +1690,7 @@ object FrmSettings: TFrmSettings
     Left = 56
   end
   object Localizer1: TLocalizer
-    URI = '.\Damian.Lan'
+    URI = 'res:DamianLan'
     Left = 24
   end
 end

@@ -1,5 +1,7 @@
 program damian;
 
+{$R *.dres}
+
 uses
   Vcl.Forms,
   MainUnit in 'MainUnit.pas' {FrmMain},

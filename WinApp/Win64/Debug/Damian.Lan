@@ -54,7 +54,7 @@
     </Property>
     <Property ID="Label5.Caption">
       <Value>Skin/Theme</Value>
-      <Translation Locale="en-US">Skin/Theme</Translation>
+      <Translation Locale="en-US">Theme</Translation>
       <Translation Locale="fr-FR">Thème </Translation>
       <Translation Locale="es-MX">Tema</Translation>
       <Translation Locale="de-DE">Thema </Translation>

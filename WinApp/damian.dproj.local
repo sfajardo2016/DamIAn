@@ -2,13 +2,14 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2021/04/10 10:59:38.000.765,=C:\Users\User\Documents\Embarcadero\Studio\Projects\Unit8.pas</Transaction>
-    <Transaction>2021/04/10 11:14:08.000.867,D:\Dev\varcoded\Damian\DamIAn\appv1.0\MainUnit.pas=C:\Users\User\Documents\Embarcadero\Studio\Projects\Unit8.pas</Transaction>
     <Transaction>2021/04/10 11:14:08.000.867,D:\Dev\varcoded\Damian\DamIAn\appv1.0\MainUnit.dfm=C:\Users\User\Documents\Embarcadero\Studio\Projects\Unit8.dfm</Transaction>
+    <Transaction>2021/04/10 11:14:08.000.867,D:\Dev\varcoded\Damian\DamIAn\appv1.0\MainUnit.pas=C:\Users\User\Documents\Embarcadero\Studio\Projects\Unit8.pas</Transaction>
     <Transaction>2021/04/10 11:14:12.000.244,D:\Dev\varcoded\Damian\DamIAn\appv1.0\damian.dproj=C:\Users\User\Documents\Embarcadero\Studio\Projects\Project5.dproj</Transaction>
     <Transaction>2021/04/12 12:32:13.000.899,=D:\Dev\varcoded\Damian\DamIAn\WinApp\Unit1.pas</Transaction>
-    <Transaction>2021/04/12 12:33:29.000.597,D:\Dev\varcoded\Damian\DamIAn\WinApp\SettingsUnit.dfm=D:\Dev\varcoded\Damian\DamIAn\WinApp\Unit1.dfm</Transaction>
     <Transaction>2021/04/12 12:33:29.000.597,D:\Dev\varcoded\Damian\DamIAn\WinApp\SettingsUnit.pas=D:\Dev\varcoded\Damian\DamIAn\WinApp\Unit1.pas</Transaction>
+    <Transaction>2021/04/12 12:33:29.000.597,D:\Dev\varcoded\Damian\DamIAn\WinApp\SettingsUnit.dfm=D:\Dev\varcoded\Damian\DamIAn\WinApp\Unit1.dfm</Transaction>
     <Transaction>2021/04/13 12:39:52.000.916,=D:\Dev\varcoded\Damian\DamIAn\WinApp\Unit1.pas</Transaction>
     <Transaction>2021/04/13 12:40:15.000.764,D:\Dev\varcoded\Damian\DamIAn\WinApp\Unit1.pas=D:\Dev\varcoded\Damian\DamIAn\WinApp\Model\DamianInputUnit.pas</Transaction>
+    <Transaction>2021/04/16 17:10:30.000.628,=D:\Dev\varcoded\Damian\DamIAn\WinApp\Win64\Release\Damian.Lan</Transaction>
   </Transactions>
 </BorlandProject>

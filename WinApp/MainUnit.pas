@@ -375,7 +375,7 @@ end;
 
 function TFrmMain.ProcessNewChar(ThisChar:Char): Char;
 const
-	CHARS = ['0'..'9', 'a'..'z', 'A'..'Z',' ','?', ',',':','-','ñ','Ñ','!','.'];
+	CHARS = ['0'..'9', 'a'..'z', 'A'..'Z',' ','?', ',',':','-','ñ','Ñ','!','.',#39];
 
 var
 	ThisKeyIsVisible: Boolean;
@@ -654,6 +654,8 @@ if (true) then
 end;
 
 
+(*
+
 if NOT (FileExists('.\Damian.Lan')) then
 begin
 if (true) then
@@ -661,7 +663,7 @@ if (true) then
 		exit ( false );
 end;
 
-
+  *)
 
 
 
